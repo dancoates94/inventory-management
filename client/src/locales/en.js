@@ -6,6 +6,7 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -112,6 +113,11 @@ export default {
     onTimeDelivery: 'On-Time Delivery',
     itemsCount: '{count} items',
     quantity: 'Qty',
+    submittedRestockingOrders: {
+      title: 'Submitted Restocking Orders',
+      leadTime: 'Lead Time',
+      days: 'days'
+    },
     table: {
       orderNumber: 'Order Number',
       orderId: 'Order ID',
@@ -186,6 +192,43 @@ export default {
       trend: 'Trend',
       period: 'Period'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Set a budget and get restock recommendations based on demand vs. stock levels',
+    budget: {
+      title: 'Restocking Budget',
+      label: 'Available Budget',
+      selected: 'Selected',
+      remaining: 'Remaining'
+    },
+    recommendations: {
+      title: 'Recommended Items',
+      noItems: 'No restocking needed - all forecasted demand is covered by current stock',
+      table: {
+        itemName: 'Item Name',
+        sku: 'SKU',
+        currentStock: 'Current Stock',
+        forecastedDemand: 'Forecasted Demand',
+        gap: 'Gap',
+        trend: 'Trend',
+        unitCost: 'Unit Cost',
+        totalCost: 'Total Cost',
+        select: 'Select'
+      }
+    },
+    summary: {
+      itemsSelected: 'Items Selected',
+      totalCost: 'Total Cost',
+      remainingBudget: 'Remaining Budget'
+    },
+    placeOrder: 'Place Order',
+    placingOrder: 'Placing Order...',
+    orderSuccess: 'Restocking order submitted successfully. View it in the Orders tab.',
+    orderError: 'Failed to submit restocking order. Please try again.',
+    noSelection: 'Select at least one item to place an order'
   },
 
   // Filters

@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
+from datetime import datetime, timedelta
+import random
 from mock_data import inventory_items, orders, demand_forecasts, backlog_items, spending_summary, monthly_spending, category_spending, recent_transactions, purchase_orders
 
 app = FastAPI(title="Factory Inventory Management System")
@@ -80,6 +82,7 @@ class Order(BaseModel):
     actual_delivery: Optional[str] = None
     warehouse: Optional[str] = None
     category: Optional[str] = None
+    type: Optional[str] = "customer"
 
 class DemandForecast(BaseModel):
     id: str
@@ -119,6 +122,15 @@ class CreatePurchaseOrderRequest(BaseModel):
     unit_cost: float
     expected_delivery_date: str
     notes: Optional[str] = None
+
+class RestockingItem(BaseModel):
+    sku: str
+    name: str
+    quantity: int
+    unit_cost: float
+
+class CreateRestockingOrderRequest(BaseModel):
+    items: List[RestockingItem]
 
 # API endpoints
 @app.get("/")
@@ -160,6 +172,36 @@ def get_order(order_id: str):
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
+@app.get("/api/restocking/orders", response_model=List[Order])
+def get_restocking_orders():
+    """Get all submitted restocking orders"""
+    return [order for order in orders if order.get("type") == "restocking"]
+
+@app.post("/api/restocking/orders", response_model=Order, status_code=201)
+def create_restocking_order(request: CreateRestockingOrderRequest):
+    """Submit a restocking order for the given items"""
+    if not request.items:
+        raise HTTPException(status_code=400, detail="Restocking order must include at least one item")
+
+    order_date = datetime.now()
+    # Lead time varies by order to reflect realistic supplier variability
+    expected_delivery = order_date + timedelta(days=random.randint(7, 14))
+    total_value = sum(item.quantity * item.unit_cost for item in request.items)
+
+    new_order = {
+        "id": str(len(orders) + 1),
+        "order_number": f"ORD-{order_date.year}-{len(orders) + 1:04d}",
+        "customer": "Internal Restocking",
+        "items": [item.model_dump() for item in request.items],
+        "status": "Processing",
+        "order_date": order_date.strftime("%Y-%m-%d"),
+        "expected_delivery": expected_delivery.strftime("%Y-%m-%d"),
+        "total_value": round(total_value, 2),
+        "type": "restocking"
+    }
+    orders.append(new_order)
+    return new_order
 
 @app.get("/api/demand", response_model=List[DemandForecast])
 def get_demand_forecasts():

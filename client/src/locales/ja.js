@@ -6,6 +6,7 @@ export default {
     orders: '注文',
     finance: '財務',
     demandForecast: '需要予測',
+    restocking: '補充',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -112,6 +113,11 @@ export default {
     onTimeDelivery: '定時配達',
     itemsCount: '{count}件',
     quantity: '数量',
+    submittedRestockingOrders: {
+      title: '送信済み補充注文',
+      leadTime: 'リードタイム',
+      days: '日'
+    },
     table: {
       orderNumber: '注文番号',
       orderId: '注文ID',
@@ -186,6 +192,43 @@ export default {
       trend: 'トレンド',
       period: '期間'
     }
+  },
+
+  // Restocking
+  restocking: {
+    title: '補充',
+    description: '予算を設定し、需要と在庫レベルに基づいた補充推奨を取得',
+    budget: {
+      title: '補充予算',
+      label: '利用可能な予算',
+      selected: '選択済み',
+      remaining: '残り'
+    },
+    recommendations: {
+      title: '推奨品目',
+      noItems: '補充の必要はありません - 予測需要はすべて現在の在庫でカバーされています',
+      table: {
+        itemName: '品目名',
+        sku: 'SKU',
+        currentStock: '現在の在庫',
+        forecastedDemand: '予測需要',
+        gap: '不足数',
+        trend: 'トレンド',
+        unitCost: '単価',
+        totalCost: '合計金額',
+        select: '選択'
+      }
+    },
+    summary: {
+      itemsSelected: '選択された品目',
+      totalCost: '合計金額',
+      remainingBudget: '残り予算'
+    },
+    placeOrder: '注文する',
+    placingOrder: '注文中...',
+    orderSuccess: '補充注文が送信されました。注文タブで確認できます。',
+    orderError: '補充注文の送信に失敗しました。もう一度お試しください。',
+    noSelection: '注文するには少なくとも1つの品目を選択してください'
   },
 
   // Filters
